@@ -1,73 +1,72 @@
-const mongo = require('mongojs');
-const db = mongo('ecommerce' , ['products']);
+// // const mongo = require('mongojs');
+//
+//
+// // const db = mongo('ecommerce' , ['products']);
+
+
+const Product = require('./Products')
+
 
 module.exports = {
+
+
+
+  //
+  //
   getProduct(req, res){
-    const query = req.query;
-    db.products.find( query , function (err , response) {
+    Product.find({} , (err , response) => {
       if (err) {
-        return res.status(500).json(err);
+        return res.status(500).json(err)
       }
       else {
-        return res.json(response)
+        return res.status(200).json(response)
       }
-    })
+    });
   }
   ,getOneProduct(req, res){
 
-    const idObj = {
-      _id: mongo.ObjectId(req.params.id)
-    };
-    db.products.findOne(idObj , function (err , response) {
+    Product.findById({} , (err , response) => {
       if (err) {
         return res.status(500).json(err);
       }
       else {
-        return res.json(response);
+        return res.status(200).json(response)
       }
     })
 
-
   }
   ,postProduct(req, res){
-    db.products.save(req.body , function (err , response) {
+    Product.create(req.body , (err , response) => {
       if (err) {
         return res.status(500).json(err);
       }
-      else{
-        return res.json(response)
+      else {
+        return res.status(201).json(response)
       }
     })
   }
   ,updateProduct(req, res){
-    if (!req.params.id) {
-      return res.status(400).send('Id query is needed')
-    }
-    const query = {
-      _id: mongo.ObjectId(req.params.id)
-    }
-    db.products.update(query , req.body , function (err , response) {
+
+    Product.findByIdAndUpdate(req.params.id ,req.body, (err , response) => {
       if (err) {
-        return res.status(500).json(response);
+        return res.status(500).json(err)
       }
       else {
-        return res.json(response)
+        return res.status(200).json(response)
       }
     })
   }
   ,deleteProduct(req, res){
-    if(!req.params.id){
-     return res.status(400).send('id query needed');
-   }
-   var query = {
-     _id: mongo.ObjectId(req.params.id)
-   };
-   db.products.remove(query, function(error, response){
-     if(error) {
-       return res.status(500).json(error);
-     } else {
-       return res.json(response);
-     }
-   });
+
+    Product.findByIdAndRemove(req.params.id , (err , response) => {
+      if (err) {
+        return res.status(500).json(err)
+      }
+      else {
+        return res.status(200).json(response)
+      }
+    })
+
+
   }
 }

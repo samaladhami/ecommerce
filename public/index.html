@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app = 'myApp'>
+  <head>
+
+    <title></title>
+  </head>
+  <body ng-controller = 'myCtrl'>
+    <ul>
+      <h1>The products</h1>
+      <li ng-repeat = 'product in products'>
+
+        <h2>
+          title: {{product.title}}
+        </h2>
+        <h3>
+          price: {{product.price}}$
+
+        </h3>
+        <p>
+            description: {{product.description}}
+        </p>
+        <!-- <button type="button" name="button" ng-click= 'deleteProduct({{product._id}})'> Delete </button> -->
+        <a class="btn" ng-click="deleteProduct(product._id); getProducts()">{{product._id}}</a>
+       </li>
+    </ul>
+    <h1>Post a product</h1>
+    <form >
+
+
+      <input type="text" placeholder= "title" ng-model= "title" required>
+      <input type="text" placeholder= "price" ng-model= "price" required>
+      <input type="text" placeholder= "description" ng-model= "description" required>
+      <button type="button" name="button" ng-click='postProduct(title , description , price); getProducts()' > Submit </button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <script src="appCtrl.js" charset="utf-8"></script>
+    <script src="appService.js" charset="utf-8"></script>
+  </body>
+</html>
